@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企业文档智能管理系统</title>
+<link rel="stylesheet" href="/api/static/css/style.css">
+</head>
+<body>
+
+<!-- 登录页 -->
+<div id="page-login" class="page">
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <h1>企业文档智能管理系统</h1>
+        <p>基于 AI Agent 的知识库管理平台</p>
+      </div>
+      <form id="login-form" onsubmit="return false">
+        <div class="form-group">
+          <label>用户名</label>
+          <input type="text" id="login-username" placeholder="请输入用户名" autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label>密码</label>
+          <input type="password" id="login-password" placeholder="请输入密码" autocomplete="current-password">
+        </div>
+        <div id="login-error" class="form-error hidden"></div>
+        <button type="submit" class="btn btn-primary btn-full" onclick="Auth.login()">登 录</button>
+      </form>
+      <p class="login-hint">默认账号: admin / admin123</p>
+    </div>
+  </div>
+</div>
+
+<!-- 主应用 -->
+<div id="page-app" class="page hidden">
+  <nav class="sidebar">
+    <div class="sidebar-brand">
+      <h2>DocBrain</h2>
+      <span class="badge badge-sm">v1.0</span>
+    </div>
+    <div class="sidebar-menu">
+      <a href="#" class="menu-item active" data-page="dashboard">
+        <span class="menu-icon">&#9632;</span> 仪表盘
+      </a>
+      <a href="#" class="menu-item" data-page="documents">
+        <span class="menu-icon">&#9632;</span> 文档管理
+      </a>
+      <a href="#" class="menu-item" data-page="search">
+        <span class="menu-icon">&#9632;</span> 智能检索
+      </a>
+      <a href="#" class="menu-item" data-page="chat">
+        <span class="menu-icon">&#9632;</span> AI 助手
+      </a>
+      <a href="#" class="menu-item" data-page="upload">
+        <span class="menu-icon">&#9632;</span> 上传文档
+      </a>
+    </div>
+    <div class="sidebar-footer">
+      <div class="user-info" id="user-info"></div>
+      <button class="btn btn-sm btn-outline" onclick="Auth.logout()">退出登录</button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <!-- 仪表盘 -->
+    <div id="tab-dashboard" class="tab-content active">
+      <h2>仪表盘</h2>
+      <div class="stats-grid" id="stats-cards"></div>
+      <div class="card mt-4">
+        <h3>最近文档</h3>
+        <div id="recent-docs"></div>
+      </div>
+    </div>
+
+    <!-- 文档管理 -->
+    <div id="tab-documents" class="tab-content">
+      <div class="flex-between">
+        <h2>文档管理</h2>
+        <button class="btn btn-primary" onclick="App.switchTab('upload')">上传新文档</button>
+      </div>
+      <div class="card mt-4">
+        <table class="table">
+          <thead><tr><th>文件名</th><th>页数</th><th>大小</th><th>状态</th><th>时间</th><th>操作</th></tr></thead>
+          <tbody id="doc-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 检索 -->
+    <div id="tab-search" class="tab-content">
+      <h2>智能检索</h2>
+      <div class="search-bar">
+        <input type="text" id="search-input" class="form-input" placeholder="输入查询内容，支持语义+关键词混合检索..." onkeydown="if(event.key==='Enter')App.search()">
+        <button class="btn btn-primary" onclick="App.search()">搜索</button>
+      </div>
+      <div id="search-results" class="mt-4"></div>
+    </div>
+
+    <!-- AI 对话 -->
+    <div id="tab-chat" class="tab-content">
+      <div class="flex-between">
+        <h2>AI 智能助手</h2>
+        <button class="btn btn-sm btn-outline" onclick="App.resetChat()">重置对话</button>
+      </div>
+      <div class="chat-container card mt-4">
+        <div id="chat-messages" class="chat-messages"></div>
+        <div class="chat-input-bar">
+          <input type="text" id="chat-input" class="form-input" placeholder="向 AI 助手提问..." onkeydown="if(event.key==='Enter')App.chat()">
+          <button class="btn btn-primary" onclick="App.chat()">发送</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 上传 -->
+    <div id="tab-upload" class="tab-content">
+      <h2>上传文档</h2>
+      <div class="card">
+        <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+          <p>拖拽 PDF 文件到此处，或点击选择（支持多文件）</p>
+          <p class="text-muted">支持中文 PDF，自动解析、切分、入库</p>
+        </div>
+        <input type="file" id="file-input" accept=".pdf" multiple hidden onchange="App.uploadFiles(this)">
+        <div id="upload-status" class="mt-2"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="/api/static/js/app.js"></script>
+</body>
+</html>

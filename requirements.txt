@@ -1,0 +1,35 @@
+# 核心后端
+fastapi==0.111.0
+uvicorn==0.29.0
+pydantic==2.7.1
+python-multipart==0.0.32
+httpx==0.28.1
+
+# AI / LLM
+openai==1.109.1
+huggingface_hub==1.24.0
+
+# 检索
+chromadb==0.4.24
+sentence-transformers==5.6.1
+jieba==0.42.1
+scikit-learn==1.7.2
+numpy==1.26.4
+
+# PDF 处理
+PyMuPDF==1.24.1
+
+# 微调 (GPU 训练环境)
+torch>=2.3.0
+transformers>=4.45.0
+accelerate>=1.0.0
+peft>=0.14.0
+bitsandbytes>=0.45.0
+trl>=1.9.0
+datasets>=3.0.0
+
+# 模型推理 (vLLM)
+vllm>=0.6.0
+
+# 模型下载
+modelscope>=1.20.0
